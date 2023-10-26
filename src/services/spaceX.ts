@@ -1,6 +1,6 @@
 import { type Launch, type SpaceXResponse } from '../types/SpaceXResponse';
 
-export const getLatestLaunches = async () => {
+export const getLaunches = async (sort = 'desc') => {
   const res = await fetch('https://api.spacexdata.com/v5/launches/query', {
     method: 'POST',
     headers: {
@@ -10,27 +10,7 @@ export const getLatestLaunches = async () => {
       query: {},
       options: {
         sort: {
-          date_unix: 'desc',
-        },
-        limit: 10,
-      },
-    }),
-  });
-  const { docs: launches } = (await res.json()) as SpaceXResponse;
-  return launches;
-};
-
-export const getOldestLaunches = async () => {
-  const res = await fetch('https://api.spacexdata.com/v5/launches/query', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: {},
-      options: {
-        sort: {
-          date_unix: 'asc',
+          date_unix: sort,
         },
         limit: 10,
       },

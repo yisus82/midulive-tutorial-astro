@@ -1,8 +1,14 @@
 ---
-import { getLatestLaunches } from '../services/spaceX';
+import { getLaunches } from '../services/spaceX';
 import LaunchCard from './LaunchCard.astro';
 
-const launches = await getLatestLaunches();
+interface Props {
+  oldest?: boolean;
+}
+
+const { oldest } = Astro.props;
+const sort = oldest ? 'asc' : 'desc';
+const launches = await getLaunches(sort);
 ---
 
 <div class='grid gap-8 sm:grid-cols-2 lg:grid-cols-3 text-center mt-8'>
