@@ -1,5 +1,5 @@
 export interface SpaceXResponse {
-  docs: Doc[];
+  docs: Launch[];
   totalDocs: number;
   offset: number;
   limit: number;
@@ -12,7 +12,7 @@ export interface SpaceXResponse {
   nextPage: number;
 }
 
-export interface Doc {
+export interface Launch {
   fairings?: Fairings;
   links: Links;
   static_fire_date_utc: any;
