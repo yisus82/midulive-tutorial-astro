@@ -21,21 +21,10 @@ export const getLaunches = async (sort = 'desc') => {
 };
 
 export const getLaunchById = async (id: string) => {
-  const res = await fetch(`https://api.spacexdata.com/v5/launches/${id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: {},
-      options: {
-        sort: {
-          date_unix: 'desc',
-        },
-        limit: 10,
-      },
-    }),
-  });
+  const res = await fetch(`https://api.spacexdata.com/v5/launches/${id}`);
+  if (!res.ok) {
+    return {};
+  }
   const launch = (await res.json()) as Launch;
   return launch;
 };

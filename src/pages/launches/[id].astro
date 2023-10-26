@@ -1,0 +1,44 @@
+---
+import { type GetStaticPaths } from 'astro';
+import Logo from '../../assets/img/SpaceX-Logo.png';
+import Layout from '../../layouts/Layout.astro';
+import { getLaunchById, getLaunches } from '../../services/spaceX';
+import { type Launch } from '../../types/SpaceXResponse';
+
+const { id } = Astro.params;
+const { flight_number, name, success, details, links } = (await getLaunchById(id!)) as Launch;
+const imgSrc = links.patch.small ?? Logo.src;
+const launchStatus = success ? 'Success' : 'Failure';
+
+export const getStaticPaths = (async () => {
+  const launches = [...(await getLaunches('desc')), ...(await getLaunches('asc'))];
+
+  return launches.map(launch => ({
+    params: { id: launch.id },
+    props: { id: launch.id },
+  }));
+}) satisfies GetStaticPaths;
+---
+
+<Layout title={`Flight #${flight_number} - ${name}`}>
+  <header class='flex flex-col items-center justify-center'>
+    <h2 class='text-3xl font-bold text-center'>
+      {`Flight #${flight_number} - ${name}`}
+    </h2>
+    <span
+      class:list={[
+        'text-xs font-semibold mr-2 px-2.5 py-0.5 rounded',
+        {
+          'bg-green-200 text-green-900': success,
+          'bg-red-200 text-red-900': !success,
+        },
+      ]}
+    >
+      {launchStatus}
+    </span>
+  </header>
+  <picture class='flex justify-center p-4'>
+    <img src={imgSrc} alt={`Patch for launch ${id}`} class='mb-5 bg-slate-600 rounded-xl' />
+  </picture>
+  <p>{details}</p>
+</Layout>
