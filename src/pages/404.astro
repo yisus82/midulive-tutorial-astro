@@ -1,0 +1,14 @@
+---
+import Image404 from '../assets/img/404.png';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title='404 Not Found'>
+  <div class='flex flex-col items-center justify-center gap-8'>
+    <img src={Image404.src} alt='404 Not Found' />
+    <a
+      class='flex-row justify-center text-white cursor-pointer hover:bg-gray-600 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-110 scale-90 gap-x-2 opacity-90 hover:opacity-100'
+      href='/'>Go to home page</a
+    >
+  </div>
+</Layout>
