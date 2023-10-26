@@ -1,5 +1,6 @@
 ---
 import { type SpaceXResponse } from '../types/SpaceXResponse';
+import LaunchCard from './LaunchCard.astro';
 
 const res = await fetch('https://api.spacexdata.com/v5/launches/query', {
   method: 'POST',
@@ -16,9 +17,20 @@ const res = await fetch('https://api.spacexdata.com/v5/launches/query', {
     },
   }),
 });
-const { docs } = (await res.json()) as SpaceXResponse;
+const { docs: launches } = (await res.json()) as SpaceXResponse;
 ---
 
 <div class='grid gap-8 sm:grid-cols-2 lg:grid-cols-3 text-center mt-8'>
-  {docs.map(doc => <p>{doc.name}</p>)}
+  {
+    launches.map(({ id, name, links, success, flight_number, details }) => (
+      <LaunchCard
+        id={id}
+        name={name}
+        img={links.patch.small}
+        success={success}
+        flightNumber={flight_number}
+        details={details}
+      />
+    ))
+  }
 </div>
